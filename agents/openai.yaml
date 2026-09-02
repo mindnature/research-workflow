@@ -1,0 +1,5 @@
+interface:
+  display_name: "Research Workflow"
+  short_description: "Evidence-based research workflows"
+  brand_color: "#315EFB"
+  default_prompt: "Use $research-workflow to map a research topic, audit evidence, and identify defensible research opportunities."
