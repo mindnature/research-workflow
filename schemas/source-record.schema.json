@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mindnature/research-workflow/schemas/source-record.schema.json",
+  "title": "Source Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source_id", "citation_or_identifier", "source_type", "access_status", "verification_status", "relevance", "notes"],
+  "properties": {
+    "source_id": {"type": "string", "minLength": 1},
+    "citation_or_identifier": {"type": "string", "minLength": 1},
+    "source_type": {"type": "string", "minLength": 1},
+    "doi_or_stable_url": {"type": ["string", "null"]},
+    "access_status": {"enum": ["full_text", "abstract_only", "secondary_report", "metadata_only", "unavailable"]},
+    "verification_status": {"enum": ["inspected", "partially_inspected", "not_inspected"]},
+    "relevance": {"enum": ["core", "supporting", "peripheral"]},
+    "population_or_unit": {"type": ["string", "null"]},
+    "context": {"type": ["string", "null"]},
+    "design_or_method": {"type": ["string", "null"]},
+    "main_findings": {"type": ["string", "null"]},
+    "limitations": {"type": ["string", "null"]},
+    "evidence_locators": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": "string"}
+  }
+}
