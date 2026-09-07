@@ -5,7 +5,7 @@ This register links known research-AI risks to the controls implemented by `rese
 Status vocabulary:
 
 - `DESIGNED`: protocol exists, not yet behaviorally evaluated.
-- `TESTED`: covered by deterministic or example-based tests.
+- `TESTED`: covered by deterministic tests or behaviorally executed example cases.
 - `MEASURED`: performance has been measured against an independently authored evaluation set.
 - `OPEN`: risk known, no adequate control yet.
 
@@ -15,7 +15,7 @@ Status vocabulary:
 | R2 Claim-source mismatch | Real source cited for a claim it does not support | Claim Record + locator requirement + fit check | DESIGNED | Semantic completeness of claim extraction remains unknown |
 | R3 Causal overclaim | Correlation or weak design rewritten as causation | Integrity Gate G3 + contradiction review | DESIGNED | Domain-specific causal assumptions still need expert judgment |
 | R4 False research gap | "No studies exist" inferred from narrow search | Search-bounded Gap Candidate + novelty rule | DESIGNED | Search coverage may remain incomplete or terminology-dependent |
-| R5 Abstract/full-text confusion | Abstract-only access presented as full-paper verification | Source Record access status + abstract-only rule | TESTED | Requires eval cases across different source types |
+| R5 Abstract/full-text confusion | Abstract-only access presented as full-paper verification | Source Record access status + abstract-only rule | DESIGNED | Behavioral fixtures exist but have not yet been executed against a model |
 | R6 Scope drift | Later synthesis silently broadens population/context/time/construct | RQ Brief + state-machine `SCOPE_DRIFT` path | DESIGNED | No automated semantic scope-drift detector yet |
 | R7 Confirmation bias | Workflow searches mainly for supporting evidence | Contradiction mode + mandatory strongest counterargument | DESIGNED | Search itself can still be biased before contradiction stage |
 | R8 Source dependence | Multiple reports repeat one original source and appear independent | Source-lineage warning in integrity protocol | DESIGNED | Lineage is not yet machine-normalized |
