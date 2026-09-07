@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mindnature/research-workflow/schemas/research-passport.schema.json",
+  "title": "Research Passport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "research_question",
+    "scope",
+    "search_boundary",
+    "sources",
+    "claims",
+    "contradictions",
+    "gaps",
+    "assumptions",
+    "unresolved",
+    "artifacts",
+    "current_stage",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": {"const": "research-passport/1.0"},
+    "research_question": {"type": "string", "minLength": 1},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["population_or_unit", "context", "timeframe", "in_scope", "out_of_scope"],
+      "properties": {
+        "population_or_unit": {"type": "string"},
+        "context": {"type": "string"},
+        "timeframe": {"type": "string"},
+        "in_scope": {"type": "array", "items": {"type": "string"}},
+        "out_of_scope": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "search_boundary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["not_started", "partial", "documented"]},
+        "sources_or_databases": {"type": "array", "items": {"type": "string"}},
+        "keywords": {"type": "array", "items": {"type": "string"}},
+        "date_range": {"type": "string"},
+        "last_searched_at": {"type": ["string", "null"]}
+      }
+    },
+    "sources": {"type": "array", "items": {"$ref": "source-record.schema.json"}},
+    "claims": {"type": "array", "items": {"$ref": "claim-record.schema.json"}},
+    "contradictions": {"type": "array", "items": {"type": "object"}},
+    "gaps": {"type": "array", "items": {"type": "object"}},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "unresolved": {"type": "array", "items": {"type": "string"}},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "location", "status"],
+        "properties": {
+          "kind": {"type": "string"},
+          "location": {"type": "string"},
+          "status": {"enum": ["draft", "complete", "needs_review", "blocked"]}
+        }
+      }
+    },
+    "current_stage": {
+      "enum": ["S0_INTAKE", "S1_SCOPE", "S2_EXTRACT", "S3_STRUCTURE", "S4_COMPARE", "S5_CHALLENGE", "S6_AUDIT", "S7_SYNTHESIZE", "S8_DESIGN", "COMPLETE"]
+    },
+    "next_action": {"type": "string"}
+  }
+}

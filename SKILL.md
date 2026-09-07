@@ -1,6 +1,6 @@
 ---
 name: research-workflow
-description: "Use a domain-agnostic, evidence-aware workflow to explore research topics, review literature, compare studies, map concepts and variables, detect contradictions and gaps, challenge claims, audit sources, and turn findings into defensible research questions or designs. Applies across disciplines and research stages when analysis is needed beyond a simple factual lookup or prose rewrite."
+description: "Use a domain-agnostic, evidence-aware and stateful workflow to explore research topics, review literature, compare studies, map concepts and variables, detect contradictions and gaps, challenge claims, audit sources, and turn findings into defensible research questions or designs. Applies across disciplines and research stages when analysis is needed beyond a simple factual lookup or prose rewrite."
 ---
 
 # Research Workflow
@@ -13,29 +13,69 @@ quantitative, qualitative, mixed-methods, theoretical, computational, or
 practice-based work.
 
 The goal is not merely to summarize sources. Produce a traceable path from a
-research question to evidence, comparison, criticism, and a defensible next
-step.
+research question to evidence, comparison, criticism, verification, and a
+defensible next step.
 
-## Choose the smallest sufficient mode
+## Route to the smallest sufficient mode
 
-Select one or more modes from [research-modes.md](references/research-modes.md)
-based on the user's requested outcome:
+Use [MODE_REGISTRY.md](MODE_REGISTRY.md) as the canonical mode registry. The
+available primary modes are:
 
-- landscape and gap reconnaissance;
-- literature matrix and comparative synthesis;
-- concept, theory, and variable mapping;
-- contradiction detection and adversarial review;
-- source and claim evidence audit;
-- plain-language explanation or teaching translation;
-- research design, proposal, or next-study planning.
+- `landscape`;
+- `lit-review`;
+- `concept-map`;
+- `contradiction`;
+- `evidence-audit`;
+- `research-design`;
+- `explain`;
+- `full`.
 
-Do not run the full pipeline for a narrow request. For a complex request,
-combine modes in this order unless the user specifies otherwise:
+Detailed research behavior remains in
+[research-modes.md](references/research-modes.md). Prefer one mode when one mode
+is sufficient. Combine modes explicitly when the requested deliverable spans
+multiple tasks. Do not run `full` for a narrow request.
 
-`scope → extract → structure → compare → challenge → audit → synthesize`
+If a request contains consequential factual, numerical, causal, comparative,
+novelty, or method-critical claims, add the `evidence-audit` behavior even when
+another mode is primary.
 
-If a missing detail would materially change the result, ask one focused question.
-Otherwise state the working assumption and proceed.
+## Stateful research pipeline
+
+For complex work, follow the explicit state model in
+[pipeline-state-machine.md](references/pipeline-state-machine.md):
+
+`intake → scope → extract → structure → compare → challenge → audit → synthesize → design/next step`
+
+A request may enter in the middle when the user already has suitable upstream
+artifacts. Do not repeat stages merely for ceremony.
+
+For substantial multi-stage work, maintain a `research_passport` conforming to
+[research-passport.schema.json](schemas/research-passport.schema.json). The
+passport is a resumable index of the research state. It records the research
+question, scope, search boundary, source and claim records, contradictions,
+gap candidates, assumptions, unresolved issues, produced artifacts,
+`current_stage`, and `next_action`.
+
+On resume, treat the passport as recorded state, not as proof that evidence is
+still current. Refresh time-sensitive searches or claims when freshness matters.
+
+## Artifact contracts
+
+Use [handoff-contracts.md](references/handoff-contracts.md) for artifacts passed
+between stages. Required contracts include:
+
+- RQ Brief;
+- Source Record;
+- Literature Record;
+- Claim Record;
+- Contradiction Record;
+- Gap Candidate;
+- Research Design Brief;
+- Research Passport.
+
+Missing required fields must remain explicitly unknown or trigger
+`HANDOFF_INCOMPLETE`. Never infer a value solely to satisfy a schema or fill a
+table.
 
 ## Non-negotiable research behavior
 
@@ -70,6 +110,36 @@ Otherwise state the working assumption and proceed.
    dataset, or statistical value. If the source was not inspected, say so.
    Do not present a plausible interpretation as an established finding.
 
+## Integrity gate
+
+For high-impact claims, follow
+[integrity-gates.md](references/integrity-gates.md). At minimum:
+
+1. register the claim;
+2. trace it to source IDs and exact evidence locators when available;
+3. test fit across population/unit, context, timeframe, construct, method,
+   direction/magnitude, uncertainty, and inference level;
+4. return `PASS`, `WARN`, `FAIL`, or `UNRESOLVED` at gate level while preserving
+   the more detailed Claim Record evidence status.
+
+Before a `full` workflow emits a final defensible synthesis, no central claim
+may remain `FAIL`. Central `WARN` claims must be narrowed or retained as explicit
+limitations. Central `UNRESOLVED` claims cannot be used as if verified.
+
+A clean integrity gate does not certify raw-data authenticity, actual research
+execution, reproducibility, global novelty, or scientific truth. It only bounds
+what can be said from the evidence inspected in the run.
+
+## Revision and re-audit
+
+When a synthesis, proposal, or draft changes after adversarial review, use the
+small revision loop:
+
+`challenge → revision plan → revise → re-audit changed high-impact claims → final synthesis`
+
+If revision changes the scope, evidence base, or central interpretation, rerun
+the affected upstream stages instead of auditing only the textual diff.
+
 ## Source and tool discipline
 
 Use the user's supplied files and links as the primary evidence base. When
@@ -95,10 +165,20 @@ Unless the user requests another format, organize substantive outputs as:
 4. agreements, contradictions, and anomalies;
 5. prioritized research gaps;
 6. strongest objections and unresolved uncertainties;
-7. defensible synthesis;
-8. concrete research questions, design options, or next actions.
+7. integrity findings for consequential claims;
+8. defensible synthesis;
+9. concrete research questions, design options, or next actions.
 
 Use tables for repeated fields and comparisons. Keep a claim's confidence
 proportional to the evidence. If the user asks for a paper section, proposal,
 lecture, or public-facing explanation, retain the same evidence discipline while
 adapting the presentation to that deliverable.
+
+## Engineering and evaluation boundary
+
+Known risks and current controls are indexed in
+[risk-register.md](references/risk-register.md). Structural repository checks
+live in `scripts/validate_repo.py`; behavioral fixtures live in `evals/`.
+Passing structural validation does not mean model behavior has been measured.
+Do not describe a control as calibrated, reliable, or effective until there is
+separate evaluation evidence supporting that claim.

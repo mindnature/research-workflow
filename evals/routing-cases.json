@@ -1,0 +1,15 @@
+{
+  "schema_version": "research-workflow-routing-evals/1.0",
+  "cases": [
+    {"id": "R01", "request": "帮我快速了解这个研究领域有哪些主流方向和空白", "expected_primary_mode": "landscape"},
+    {"id": "R02", "request": "比较这12篇论文的方法、样本、结论和局限", "expected_primary_mode": "lit-review"},
+    {"id": "R03", "request": "帮我梳理理论模型、变量关系和中介调节机制", "expected_primary_mode": "concept-map"},
+    {"id": "R04", "request": "这些论文结论互相冲突，帮我解释为什么", "expected_primary_mode": "contradiction"},
+    {"id": "R05", "request": "逐条检查我论文里的数字、因果结论和引用是否真的被来源支持", "expected_primary_mode": "evidence-audit"},
+    {"id": "R06", "request": "这个研究问题应该用什么设计、数据和方法来做", "expected_primary_mode": "research-design"},
+    {"id": "R07", "request": "用本科生能理解的方式解释内生性，但不要牺牲技术准确性", "expected_primary_mode": "explain"},
+    {"id": "R08", "request": "从研究问题开始，帮我完成文献结构化、找矛盾、核验关键主张，再给研究设计", "expected_primary_mode": "full"},
+    {"id": "R09", "request": "帮我找研究空白，并确认‘目前没有研究’这个说法能不能成立", "expected_primary_mode": "landscape", "expected_additional_modes": ["evidence-audit"]},
+    {"id": "R10", "request": "帮我做系统综述", "expected_behavior": ["do_not_equate_with_basic_lit_review", "require_documented_search_screening_and_quality_appraisal"]}
+  ]
+}
