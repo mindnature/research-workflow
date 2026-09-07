@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mindnature/research-workflow/schemas/claim-record.schema.json",
+  "title": "Claim Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["claim_id", "claim_text", "claim_kinds", "importance", "source_ids", "evidence_locators", "status", "reason"],
+  "properties": {
+    "claim_id": {"type": "string", "minLength": 1},
+    "claim_text": {"type": "string", "minLength": 1},
+    "claim_kinds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["factual", "numerical", "causal", "comparative", "novelty", "method_critical", "conclusion_critical"]}
+    },
+    "importance": {"enum": ["high", "normal"]},
+    "source_ids": {"type": "array", "items": {"type": "string"}},
+    "evidence_locators": {"type": "array", "items": {"type": "string"}},
+    "access_boundary": {"type": ["string", "null"]},
+    "status": {"enum": ["VERIFIED", "PARTIALLY_SUPPORTED", "INFERENCE", "UNSUPPORTED", "CONTRADICTED", "REQUIRES_VERIFICATION"]},
+    "reason": {"type": "string"}
+  }
+}
