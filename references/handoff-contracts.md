@@ -117,6 +117,7 @@ Required fields:
 
 - `gap_id`
 - `gap_type`
+- `status`: `candidate_only | supported_within_search`
 - `search_boundary`
 - `observed_absence_or_limitation`
 - `nearest_prior_work`
@@ -125,7 +126,7 @@ Required fields:
 - `evidence_or_design_path`
 - `confidence`
 
-If the search boundary is inadequate, status must be `candidate_only`.
+Use `candidate_only` whenever the search boundary is inadequate, stale, or too narrow to support a bounded absence claim. `supported_within_search` never means globally novel.
 
 ## Contract 7: Research Design Brief
 
